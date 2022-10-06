@@ -1,0 +1,11 @@
+.vessel-option {
+  ::ng-deep {
+    .mat-list-item-content {
+      padding: 0;
+    }
+
+    .mat-list-text {
+      padding-right: 0 !important;
+    }
+  }
+}

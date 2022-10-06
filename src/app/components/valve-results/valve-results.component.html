@@ -1,0 +1,53 @@
+<mat-selection-list
+  [multiple]="false"
+  (selectionChange)="selectionChange.emit($event)"
+>
+  <mat-list-option
+    *ngFor="let valve of valves"
+    [value]="valve"
+    class="valve-option"
+    [selected]="valve === selectedItem"
+    [class.selected]="valve === selectedItem"
+    (click)="valveSelect.emit(valve)"
+  >
+    <div class="flex items-stretch">
+      <span class="flex-auto self-center">{{ valve.assetTag }}</span>
+
+      <button
+        mat-icon-button
+        class="self-center"
+        matTooltip="{{ valve?.status?.name }}"
+      >
+        <mat-icon
+          class="rounded"
+          [style.backgroundColor]="valve?.status?.backgroundColor"
+          [style.color]="valve?.status?.foregroundColor"
+        >
+          <ng-container *ngIf="valve?.status?.code === 'opened'"
+            >control_point
+          </ng-container>
+          <ng-container *ngIf="valve?.status?.code === 'closed'"
+            >remove_circle_outline
+          </ng-container>
+        </mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        class="self-center"
+        matTooltip="Zoom to valve"
+        (click)="$event.stopPropagation()"
+      >
+        <mat-icon>zoom_in</mat-icon>
+      </button>
+    </div>
+    <div class="text-gray-400 text-xs pb-4">
+      {{ valve.desc }}
+    </div>
+    <mat-divider></mat-divider>
+  </mat-list-option>
+</mat-selection-list>
+
+<div *ngIf="!valves.length">
+  <p class="px-4">No valves found. Please use filter to search.</p>
+</div>

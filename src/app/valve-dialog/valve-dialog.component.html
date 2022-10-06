@@ -1,0 +1,72 @@
+<mat-tab-group [selectedIndex]="tabIndex">
+  <mat-tab label="Valve Details">
+    <ng-container *ngTemplateOutlet="detailsTemplate"></ng-container>
+  </mat-tab>
+  <mat-tab label="Comments">
+    <ng-container *ngTemplateOutlet="commentsTemplate"></ng-container>
+  </mat-tab>
+  <mat-tab label="History">
+    <app-valve-history-content
+      [asset]="asset"
+      [valveChangeHistories]="valve.changeHistories"
+      (addValveManoeuver)="onAddManouever()"
+      (editValveManoeuver)="onEditManouever($event)"
+    ></app-valve-history-content>
+  </mat-tab>
+</mat-tab-group>
+
+<ng-template #detailsTemplate>
+  <div class="flex flex-wrap gap-4">
+    <app-label-value class="basis-64" label="Valve ID">
+      {{ valve.id }}</app-label-value
+    >
+    <app-label-value class="basis-64" label="Type">
+      {{ valve.type }}</app-label-value
+    >
+    <app-label-value class="basis-64" label="Model">
+      {{ valve.model }}</app-label-value
+    >
+    <app-label-value class="basis-64" label="Serial No.">
+      {{ valve.serialNo }}</app-label-value
+    >
+  </div>
+</ng-template>
+
+<ng-template #commentsTemplate>
+  <div class="flex justify-end py-2">
+    <button mat-raised-button color="primary" matTooltip="Add comment">
+      <mat-icon>add</mat-icon> ADD
+    </button>
+  </div>
+  <div class="flex flex-col gap-4">
+    <div
+      class="flex flex-col hover:bg-slate-700"
+      *ngFor="let comment of comments"
+    >
+      <div class="flex items-center">
+        <span class="text-sm font-bold mr-4">{{ comment.originator }}</span>
+        <span class="text-sm text-gray-400">{{ comment.date | date }}</span>
+        <span class="flex-auto"></span>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item color="warning">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="text-sm pl-1 pb-2">{{ comment.comment }}</div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</ng-template>

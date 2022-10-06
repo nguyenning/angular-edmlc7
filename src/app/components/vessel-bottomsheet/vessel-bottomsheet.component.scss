@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.vessel-image-container {
+  @apply mb-2;
+  @apply text-center;
+
+  .vessel-image {
+    width: 150px;
+
+    &:hover {
+      width: 300px;
+      transition: width 200ms;
+    }
+  }
+
+  .shiptype-label {
+    @apply text-center;
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.label-value {
+  @apply mr-2 basis-64 mb-4;
+}

@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  @apply w-full h-full;
+
+  ::ng-deep .sidenav-tab {
+    min-width: 60px;
+    width: 40px;
+  }
+}
+
+.resize-handle-right {
+  @apply z-10 absolute right-0 h-full cursor-col-resize w-1;
+}

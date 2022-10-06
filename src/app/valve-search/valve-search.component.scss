@@ -1,0 +1,7 @@
+.expansion-results-panel {
+  ::ng-deep {
+    .mat-expansion-panel-body {
+      @apply px-2;
+    }
+  }
+}

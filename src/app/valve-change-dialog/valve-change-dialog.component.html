@@ -1,0 +1,203 @@
+<div mat-dialog-title>Valve Change/Inspection</div>
+<div mat-dialog-content>
+  <ng-container *ngTemplateOutlet="dialogContent"></ng-container>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-flat-button mat-dialog-close cdkFocusInitial color="primary">
+    <ng-container *ngIf="isNew"> <mat-icon>add</mat-icon> Add </ng-container>
+    <ng-container *ngIf="!isNew"> <mat-icon>save</mat-icon> Save </ng-container>
+  </button>
+</div>
+
+<ng-template #dialogContent>
+  <mat-accordion multi class="block mb-2">
+    <mat-expansion-panel #structurePanel>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="panel-title">
+          <span *ngIf="structurePanel.expanded">Structure</span>
+          <span *ngIf="!structurePanel.expanded" class="flex items-center">
+            <span class="text-xs text-gray-400 mr-2">Structure</span>
+            {{ asset.name }}
+          </span>
+        </mat-panel-title>
+        <mat-panel-description
+          class="panel-desc"
+          *ngIf="!structurePanel.expanded"
+          >{{ asset.assetTag }}</mat-panel-description
+        >
+      </mat-expansion-panel-header>
+
+      <div class="flex flex-row flex-wrap gap-2">
+        <app-label-value class="lv-width" label="Name">{{
+          asset.name
+        }}</app-label-value>
+        <app-label-value class="lv-width" label="Tag">{{
+          asset.assetTag
+        }}</app-label-value>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #valveDetailsPanel [expanded]="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="panel-title">
+          <span *ngIf="valveDetailsPanel.expanded">Valve Details</span>
+          <span *ngIf="!valveDetailsPanel.expanded" class="flex items-center">
+            <span class="text-xs text-gray-400 mr-2">Valve Tag</span>
+            {{ valve.assetTag }}
+          </span>
+        </mat-panel-title>
+        <mat-panel-description
+          class="panel-desc"
+          *ngIf="!valveDetailsPanel.expanded"
+          >{{ valve.type }}</mat-panel-description
+        >
+      </mat-expansion-panel-header>
+
+      <div class="flex flex-row flex-wrap gap-2">
+        <app-label-value class="lv-width" label="Valve Tag">{{
+          valve.assetTag
+        }}</app-label-value>
+
+        <app-label-value class="lv-width" label="Type">{{
+          valve.type
+        }}</app-label-value>
+
+        <app-label-value class="lv-width" label="Model">{{
+          valve.model
+        }}</app-label-value>
+
+        <app-label-value class="lv-width" label="Serial No.">{{
+          valve.serialNo
+        }}</app-label-value>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-divider class="my-2"></mat-divider>
+
+  <form>
+    <div class="field-group">
+      <span>Operation</span>
+      <div class="grid grid-cols-2 gap-2">
+        <mat-form-field appearance="fill" class="">
+          <mat-label>Created By</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="">
+          <mat-label>Updated By</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="">
+          <mat-label>Operation date</mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="">
+          <mat-label>Operation Time</mat-label>
+          <input matInput type="time" placeholder="HH:MM" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-divider class="my-2"></mat-divider>
+
+    <div class="field-group">
+      <span class="mr-2">Change Type: </span>
+      <mat-radio-group>
+        <mat-radio-button class="mr-6" value="Inspection"
+          >Inspection Data</mat-radio-button
+        >
+        <mat-radio-button value="Valve Change"
+          >Valve Change Operation
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-divider class="my-2"></mat-divider>
+
+    <!-- Operation change -->
+    <div class="field-group">
+      <div class="grid grid-cols-2 gap-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <input matInput disabled value="Open" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Changed To</mat-label>
+          <mat-select>
+            <mat-option value="opened">Opened</mat-option>
+            <mat-option value="closed">Closed</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Turned Direction</mat-label>
+          <mat-select>
+            <mat-option value="Clockwise">Clockwise</mat-option>
+            <mat-option value="Counter-clockwise">Counter-clockwise</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Breakout Torque</mat-label>
+          <input matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Running Torque</mat-label>
+          <input matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Number of Turns</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Comments</mat-label>
+      <textarea matInput class="resize-y"></textarea>
+    </mat-form-field>
+
+    <mat-divider class="my-2"></mat-divider>
+
+    <mat-toolbar class="rounded h-9">
+      <span>Documents</span>
+      <span class="flex-auto"></span>
+      <button mat-icon-button color="primary" matTooltip="Attach">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <ng-container *ngTemplateOutlet="documentsList"></ng-container>
+  </form>
+</ng-template>
+
+<ng-template #documentsList>
+  <div>
+    <div class="flex items-center">
+      <a href="" (click)="(false)" class="flex-auto p-2">Document #1</a
+      ><mat-icon>delete</mat-icon>
+    </div>
+    <div class="flex items-center">
+      <a href="" (click)="(false)" class="flex-auto p-2">Document #1</a
+      ><mat-icon>delete</mat-icon>
+    </div>
+    <div class="flex items-center">
+      <a href="" (click)="(false)" class="flex-auto p-2">Document #1</a
+      ><mat-icon>delete</mat-icon>
+    </div>
+    <div class="flex items-center">
+      <a href="" (click)="(false)" class="flex-auto p-2">Document #1</a
+      ><mat-icon>delete</mat-icon>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,118 @@
+<!-- <button mat-icon-button class="close-button float-right" (click)="onClose()">
+  <mat-icon>close</mat-icon>
+</button> -->
+
+<mat-toolbar class="mb-2" style="height: 32px">
+  <span>{{ vessel.SHIPNAME }}</span>
+  <span class="flex-auto"></span>
+
+  <button mat-icon-button class="" matTooltip="Buffer">
+    <mat-icon>all_out</mat-icon>
+  </button>
+  <button mat-icon-button class="" matTooltip="Historical vessel location">
+    <mat-icon>history</mat-icon>
+  </button>
+  <button mat-icon-button class="" matTooltip="Zoom to vessel">
+    <mat-icon>center_focus_strong</mat-icon>
+  </button>
+
+  <button mat-icon-button class="" (click)="onClose()" matTooltip="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div>
+  <div class="vessel-image-container">
+    <div style="display: inline-block">
+      <img
+        class="vessel-image"
+        alt=""
+        src="https://photos.marinetraffic.com/ais/showphoto.aspx?shipid={{
+          vessel.SHIP_ID
+        }}&size=thumb300"
+      />
+
+      <div class="shiptype-label">{{ vessel.SHIPTYPE }} TANKER</div>
+    </div>
+  </div>
+
+  <mat-accordion multi>
+    <mat-expansion-panel class="info-expansion" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Info</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="flex flex-wrap">
+        <app-label-value class="label-value" label="MMSI">{{
+          vessel.MMSI
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="IMO no.">{{
+          vessel.IMO
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Callsign">{{
+          vessel.CALLSIGN
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Navigation Status">{{
+          vessel.STATUS
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Dimensions">{{
+          vessel.LENGTH + ' x ' + vessel.WIDTH
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Destination">{{
+          vessel.DESTINATION
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="ETA">{{
+          vessel.ETA | date: 'long'
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Speed">{{
+          vessel.SPEED
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Heading">{{
+          vessel.HEADING
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Rate of Turn">{{
+          vessel.ROT
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Longitude">{{
+          vessel.LON
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Latitude">{{
+          vessel.LAT
+        }}</app-label-value>
+
+        <app-label-value class="label-value" label="Time">{{
+          vessel.TIMESTAMP | date: 'long'
+        }}</app-label-value>
+      </div>
+
+      <div>Data Source: Marine Traffic</div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel class="contact-expansion">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Contact</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label>Email</mat-label>
+          <input disabled matInput type="text" value="user@example.com" />
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+          <mat-label>Phone Number</mat-label>
+          <input disabled matInput type="text" value="+1 555-555-5555" />
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

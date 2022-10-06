@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+@import 'variables';
+
+.mat-table-bordered {
+  .selected {
+    background-color: mat.get-color-from-palette($theme-primary);
+  }
+}
+
+.col-date {
+  width: 140px;
+}
+
+.col-approved {
+  @apply text-center;
+  width: 60px;
+}
+
+.col-type {
+  width: 100px;
+}
+
+.col-status {
+  @apply text-center;
+  width: 60px;
+}

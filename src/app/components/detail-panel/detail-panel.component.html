@@ -1,0 +1,13 @@
+<div
+  class="detail-panel-wrapper absolute flex flex-col top-0 bottom-0 left-0 right-0"
+>
+  <mat-toolbar class="px-0">
+    <a mat-icon-button class="" [routerLink]="backLink" matTooltip="Previous">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <span>{{ panelTitle }}</span>
+  </mat-toolbar>
+  <div class="detail-panel-content overflow-auto">
+    <ng-content></ng-content>
+  </div>
+</div>

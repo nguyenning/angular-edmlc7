@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+@import 'variables';
+
+.valve-option {
+  height: auto;
+
+  &.selected {
+    background-color: mat.get-color-from-palette($theme-primary-bg);
+  }
+
+  ::ng-deep {
+    .mat-list-item-content {
+      padding-right: 0;
+    }
+
+    .mat-list-text {
+      padding-right: 0 !important;
+    }
+  }
+}

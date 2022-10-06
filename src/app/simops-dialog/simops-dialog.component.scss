@@ -1,0 +1,43 @@
+.close-button {
+  float: right;
+  top: -24px;
+  right: -24px;
+}
+
+span.priority {
+  @apply flex basis-24 items-center;
+}
+
+.comments {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.color-draft {
+  @apply text-yellow-100;
+}
+
+.color-pending {
+  @apply text-orange-400;
+}
+
+.color-approved {
+  @apply text-green-400;
+}
+
+.color-rejected {
+  @apply text-red-400;
+}
+
+.color-priority-low {
+  @apply text-white;
+}
+
+.color-priority-medium {
+  @apply text-yellow-400;
+}
+
+.color-priority-high {
+  @apply text-red-400;
+}

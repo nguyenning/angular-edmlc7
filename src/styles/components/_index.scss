@@ -1,0 +1,5 @@
+@use 'mat-custom' as custom;
+@import 'variables';
+
+@include custom.customTable($theme);
+@include custom.customSelect($theme);

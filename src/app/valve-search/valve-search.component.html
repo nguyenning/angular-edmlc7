@@ -1,0 +1,101 @@
+<app-detail-panel
+  panelTitle="Valve Management"
+  [backLink]="[
+    '',
+    {
+      outlets: { 'nav-details': null }
+    }
+  ]"
+>
+  <mat-accordion>
+    <mat-expansion-panel
+      [expanded]="isFilterExpanded"
+      (opened)="onFilterExpansionToggle(true)"
+      (closed)="onFilterExpansionToggle(false)"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filters </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container [ngTemplateOutlet]="filterTemplate"></ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-divider class="my-4"></mat-divider>
+
+  <mat-expansion-panel
+    class="assets-panel expansion-results-panel mb-2"
+    [expanded]="true"
+  >
+    <mat-expansion-panel-header class="">
+      <mat-panel-title>Assets </mat-panel-title>
+      <mat-panel-description>
+        <span *ngIf="(assets$ | async)?.length! > 0"
+          >{{ (assets$ | async)?.length }} found</span
+        >
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-asset-results
+      [assets]="(assets$ | async) || []"
+      [selectedItem]="selectedAsset"
+      (selectionChange)="onAssetChange($event)"
+    ></app-asset-results>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel
+    class="valves-panel expansion-results-panel"
+    [expanded]="true"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>Valves </mat-panel-title>
+      <mat-panel-description>
+        <span *ngIf="(valves$ | async)?.length! > 0">
+          {{ (valves$ | async)?.length }} found
+        </span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-valve-results
+      [valves]="(valves$ | async) || []"
+      [selectedItem]="selectedValve"
+      (selectionChange)="onValveChange($event)"
+      (valveSelect)="onValveSelect($event)"
+    ></app-valve-results>
+  </mat-expansion-panel>
+</app-detail-panel>
+
+<ng-template #filterTemplate>
+  <form [formGroup]="searchForm" class="flex flex-col" (ngSubmit)="onSearch()">
+    <mat-form-field class="mb-3 example-full-width" appearance="fill">
+      <mat-label>Name or Tag</mat-label>
+      <input formControlName="searchText" matInput placeholder="00-AB000-XYZ" />
+    </mat-form-field>
+
+    <div class="mb-2 flex items-center">
+      <button mat-stroked-button type="button" (click)="onSearchArea()">
+        <mat-icon>highlight_alt</mat-icon> Search by Area...
+      </button>
+
+      <mat-icon
+        [class.hidden]="!hasSelection"
+        class="ml-2 cursor-pointer"
+        color="warn"
+        (click)="onClearSelection()"
+        matTooltip="Clear selection"
+        >clear</mat-icon
+      >
+    </div>
+
+    <div
+      *ngIf="isSelecting"
+      class="p-2 text-center bg-orange-600 border border-dashed rounded"
+    >
+      Select an area on the map...
+    </div>
+
+    <div class="mt-4 flex justify-end gap-3">
+      <button mat-flat-button type="reset">Reset</button>
+      <button mat-flat-button color="primary" type="submit">
+        <mat-icon>check</mat-icon> Apply
+      </button>
+    </div>
+  </form>
+</ng-template>

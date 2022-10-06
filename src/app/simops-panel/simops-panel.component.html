@@ -1,0 +1,171 @@
+<app-detail-panel
+  panelTitle="SimOPS Plans"
+  [backLink]="[
+    '',
+    {
+      outlets: { 'nav-details': null }
+    }
+  ]"
+>
+  <mat-accordion>
+    <mat-expansion-panel
+      [expanded]="isFilterExpanded"
+      (opened)="onFilterExpansionToggle(true)"
+      (closed)="onFilterExpansionToggle(false)"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filters </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container [ngTemplateOutlet]="filterTemplate"></ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-divider class="my-4"></mat-divider>
+
+  <mat-expansion-panel class="simops-list-panel panel mb-2" [expanded]="true">
+    <mat-expansion-panel-header class="">
+      <mat-panel-title>Plans</mat-panel-title>
+      <mat-panel-description> </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-container *ngTemplateOutlet="plansTemplate"></ng-container>
+  </mat-expansion-panel>
+</app-detail-panel>
+
+<ng-template #filterTemplate>
+  <form [formGroup]="filterFg" (ngSubmit)="onSubmit()">
+    <div class="flex items-center gap-2 px-2 pb-2 mb-2 border-b border-divider">
+      <mat-icon class="mat-icon text-secondary flex-none">search</mat-icon
+      ><input
+        placeholder="Plan name, project name or user name..."
+        type="text"
+        cdkFocusInitial
+        formControlName="searchText"
+        class="font-medium bg-transparent outline-none flex-auto"
+      />
+    </div>
+
+    <div class="filter-container flex flex-wrap items-center gap-3">
+      <mat-form-field class="flex-1" appearance="outline" noHint>
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="statuses" multiple>
+          <mat-option value="DRAFT" class="color-draft">Draft</mat-option>
+          <mat-option value="PENDING_APPROVAL" class="color-pending"
+            >Pending Approval</mat-option
+          >
+          <mat-option value="APPROVED" class="color-approved"
+            >Approved
+          </mat-option>
+          <mat-option value="REJECTED" class="color-rejected"
+            >Rejected</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="flex-1" appearance="outline" noHint>
+        <mat-label>Priority</mat-label>
+        <mat-select multiple>
+          <mat-option value="" class="color-priority-high">High</mat-option>
+          <mat-option value="" class="color-priority-medium">Medium</mat-option>
+          <mat-option value="" class="color-priority-low">Low </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="myPlans">My plans</mat-slide-toggle>
+
+      <button mat-stroked-button>Reset</button>
+
+      <span class="flex-auto"></span>
+      <button class="" mat-flat-button color="primary" (click)="onNewPlan()">
+        <mat-icon>add</mat-icon> New Plan
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #plansTemplate>
+  <div class="simops-list">
+    <ng-container *ngFor="let plan of simopses; last as last">
+      <ng-container
+        *ngTemplateOutlet="planTemplate; context: { plan: plan, last: last }"
+      >
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #planTemplate let-plan="plan" let-last="last">
+  <div
+    class="simops-item cursor-pointer hover:bg-gray-700 py-3 px-2 rounded"
+    (click)="onPlanClick(plan)"
+  >
+    <!-- 1st row -->
+    <div class="flex flex-row gap-2 items-center pb-1">
+      <div class="basis-20 mr-1 text-gray-200">
+        {{ plan.createdAt | date: 'dd/MM/yyyy' }}
+      </div>
+
+      <span class="flex-auto"></span>
+
+      <span *ngIf="plan.priority === 'LOW'" class="priority color-priority-low">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+        Low
+      </span>
+      <span
+        *ngIf="plan.priority === 'MEDIUM'"
+        class="priority color-priority-medium"
+      >
+        <mat-icon>horizontal_rule</mat-icon>
+        Medium
+      </span>
+      <span
+        *ngIf="plan.priority === 'HIGH'"
+        class="priority color-priority-high"
+      >
+        <mat-icon>keyboard_arrow_up</mat-icon>
+        High
+      </span>
+
+      <mat-icon
+        *ngIf="plan.currentState === 'DRAFT'"
+        class="color-draft"
+        [matTooltip]="plan.currentState"
+        >edit_note</mat-icon
+      >
+      <mat-icon
+        *ngIf="plan.currentState === 'PENDING_APPROVAL'"
+        class="color-pending"
+        [matTooltip]="plan.currentState"
+        >pending_actions</mat-icon
+      >
+      <mat-icon
+        *ngIf="plan.currentState === 'APPROVED'"
+        class="color-approved"
+        [matTooltip]="plan.currentState"
+        >check</mat-icon
+      >
+      <mat-icon
+        *ngIf="plan.currentState === 'REJECTED'"
+        class="color-rejected"
+        [matTooltip]="plan.currentState"
+        >clear</mat-icon
+      >
+    </div>
+
+    <!-- 2nd row -->
+    <div class="flex-auto font-medium">
+      {{ plan.planName }}
+    </div>
+    <!-- <div class="comments text-sm text-gray-400 pb-2">{{ plan.comments }}</div> -->
+
+    <!-- 3rd row -->
+    <div class="flex flex-row text-xs">
+      <div class="basis-40">{{ plan.simopsPlanType }}</div>
+      <div class="flex-auto"></div>
+      <div class="text-xs">
+        by <strong>{{ plan.createdBy }}</strong>
+      </div>
+    </div>
+  </div>
+  <mat-divider class="" *ngIf="!last"></mat-divider>
+</ng-template>

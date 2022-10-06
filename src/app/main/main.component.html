@@ -1,0 +1,110 @@
+<mat-toolbar class="toolbar sticky top-0 z-10">
+  <button
+    type="button"
+    mat-icon-button
+    aria-label="Toggle menu"
+    (click)="toggleMatSidenav()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>ZEKI GIS</span>
+</mat-toolbar>
+<mat-sidenav-container
+  autosize="true"
+  fullscreen
+  hasBackdrop="false"
+  style="top: 64px"
+>
+  <mat-sidenav
+    mode="side"
+    [(opened)]="leftSidenavOpened"
+    fixedTopGap="64"
+    fixedInViewport="true"
+    appResizableSidenav
+    style="width: 340px"
+  >
+    <div
+      class="resize-handle-right bg-gray-800"
+      mwlResizeHandle
+      [resizeEdges]="{ right: true }"
+    ></div>
+
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab labelClass="sidenav-tab">
+        <ng-template mat-tab-label>
+          <div class="flex flex-col center">
+            <mat-icon class="self-center">home</mat-icon>
+            <span class="text-xs">Home</span>
+          </div>
+        </ng-template>
+
+        <mat-nav-list>
+          <a
+            mat-list-item
+            [routerLink]="[{ outlets: { 'nav-details': ['simops'] } }]"
+          >
+            <mat-icon class="mr-1" matListIcon>shape_line</mat-icon>
+            <span matBadge="2" matBadgeOverlap="false">SimOPS</span>
+          </a>
+
+          <!-- <a class="pl-9" mat-list-item (click)="onNewPlan()">New Plan</a>
+          <a class="pl-9" mat-list-item (click)="onSimopsDraftClick()"
+            >Drafts
+          </a>
+          <a class="pl-9" mat-list-item (click)="onSimopsPendingClick()"
+            ><span [matBadge]="2" matBadgeOverlap="false"
+              >Pending Approvals</span
+            >
+          </a>
+          <a class="pl-9" mat-list-item (click)="onSimOpsClick()">All Plans</a> -->
+
+          <a
+            mat-list-item
+            [routerLink]="[{ outlets: { 'nav-details': ['vessels'] } }]"
+          >
+            <mat-icon class="mr-1" matListIcon>directions_boat</mat-icon>
+            Vessels</a
+          >
+          <a
+            mat-list-item
+            [routerLink]="[{ outlets: { 'nav-details': ['valves'] } }]"
+          >
+            <mat-icon class="mr-1" matListIcon>control_point</mat-icon>
+            Valve Management</a
+          >
+        </mat-nav-list>
+      </mat-tab>
+      <mat-tab labelClass="sidenav-tab">
+        <ng-template mat-tab-label>
+          <div class="flex flex-col center">
+            <mat-icon class="self-center">toc</mat-icon>
+            <span class="text-xs">TOC</span>
+          </div>
+        </ng-template>
+
+        TOC</mat-tab
+      >
+
+      <!-- <mat-tab labelClass="sidenav-tab" label="Vessels"
+        ><app-vessel-tracking></app-vessel-tracking
+      ></mat-tab> -->
+    </mat-tab-group>
+
+    <router-outlet name="nav-details"></router-outlet>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+  <!-- <mat-sidenav
+    #rightSidenav
+    mode="side"
+    [(opened)]="rightSidenavOpened"
+    fixedTopGap="64"
+    fixedInViewport="true"
+    position="end"
+    style="width: 300px"
+  >
+  </mat-sidenav> -->
+</mat-sidenav-container>
